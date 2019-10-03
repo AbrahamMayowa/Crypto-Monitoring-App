@@ -10,11 +10,13 @@ export const getTokenDetailsBegin = () =>({
 
 export const getTokenDetailsSuccess = (tokenDetails) =>({
     type: GET_TOKEN_DETAILS_SUCCESS,
-    payload: {tokenDetails}
+    payload: tokenDetails
 });
+
+
 
 export const getTokenDetailsFailure = (tokenError) => ({
     type: GET_TOKEN_DETAILS_FAILURE,
-    payload: {tokenError}
+    payload: tokenError
 });
 

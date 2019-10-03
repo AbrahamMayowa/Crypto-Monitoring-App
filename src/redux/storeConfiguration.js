@@ -7,4 +7,4 @@ import topTokenAction from './action/topTokenDetailsThunk';
 export const store = createStore(allReducers, applyMiddleware(thunk));
 
 // call the thunk directly from the store in order to provide the details of top five cryptocurrency on page reques
-store.dispatch(topTokenAction());
+//store.dispatch(topTokenAction());

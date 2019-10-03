@@ -10,10 +10,10 @@ export const topTokenDetailsBegin = () =>({
 
 export const topTokenDetailsSuccess = (tokenResults) =>({
     type: GET_TOP_TOKEN_DETAILS_SUCCESS,
-    payload: [tokenResults]
+    payload: tokenResults
 });
 
 export const topTokenDetailsFailure = (tokenError) => ({
     type: GET_TOP_TOKEN_DETAILS_FAILURE,
-    payload: {tokenError}
+    payload: tokenError
 });

@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
 import {cryptoToCurrencyThunk, currencyToCryptoThunk} from './redux/action/ConvertApiThunkAction';
-import {updateQuantity, updateTokenCode, updateCountryCode} from './redux/action/updateConvertProperty';
 import {connect} from 'react-redux';
-import {Formik, Field, Form, ErrorMessage} from 'formik';
-import * as Yup from 'yup';
-import {store} from '../src/redux/storeConfiguration';
-import { tsDeclareFunction } from '@babel/types';
+
     
 
 class ConvertForm extends Component{
@@ -17,18 +13,15 @@ class ConvertForm extends Component{
                 quantityAmount: {
                     figureAmount: null,
                     amountErrorMessage: '',
-                    validInput: true
+                    validInput: true,
+                    validForSubmit: false
                 },
 
                 cryptoCode: { 
-                    tokenCode: '',
-                    tokenErrorMessage: "It's a required field",
-                    validInput: true, 
+                    tokenCode: 'btc',
                 },
                 currencyCode: {
-                    nationalCode: '',
-                    nationalCodeErrorMessage: "It's a required field",
-                    validInput: true
+                    nationalCode: 'usd',
                     
                 }
               },
@@ -37,18 +30,15 @@ class ConvertForm extends Component{
                 quantityAmount: {
                     figureAmount: null,
                     amountErrorMessage: '',
-                    validInput: true
+                    validInput: true,
+                    validForSubmit: false
                 },
 
                 cryptoCode: {
-                    tokenCode: '',
-                    tokenErrorMessage: "It's a required field",
-                    validInput: true, 
+                    tokenCode: 'btc',
                 },
                 currencyCode: {
-                    nationalCode: '',
-                    nationalCodeErrorMessage: "It's a required field",
-                    validInput: true
+                    nationalCode: 'usd'
                     
                 }
                 }
@@ -72,21 +62,19 @@ class ConvertForm extends Component{
     };
 
     // to target error error message property aside quantityAmount object
-    otherErrorMessage = (target) => {
-        let errorMess;
-        if (target.name === 'cryptoCode'){
-            return errorMess = 'tokenErrorMessage';
-        }else if(target.name === 'currencyCode'){
-            return errorMess = 'nationalCodeErrorMessage';
-    };
-    }
+    //otherErrorMessage = (target) => {
+        //let errorMess;
+        //if (target.name === 'cryptoCode'){
+           // return errorMess = 'tokenErrorMessage';
+        //}else if(target.name === 'currencyCode'){
+          //  return errorMess = 'nationalCodeErrorMessage';
+    //};
+    //}
     
 
       handleCryptoChange = (e) => { 
           const regexp = new RegExp(`^-?[0-9]*$`);
           const target = e.target;
-          const name = target.name;
-          let otherError = this.otherErrorMessage(target);
           e.persist();
           // check above arror function to understand targetPropertyUtility
           let targetProperty = this.targetPropertyUtility(target)
@@ -95,12 +83,12 @@ class ConvertForm extends Component{
                 ...this.state,
                 cryptoToCurrencyState:{
                     ...this.state.cryptoToCurrencyState,
-                    validForm: false,
                     [target.name]: {
                         ...this.state.cryptoToCurrencyState[target.name],
                         [targetProperty] : target.value,
                         amountErrorMessage: 'input only valid number',
-                        validInput: false
+                        validInput: false,
+                        validForSubmit: false
                         } 
                 }
                 });
@@ -109,12 +97,12 @@ class ConvertForm extends Component{
                 ...this.state,
                 cryptoToCurrencyState:{
                     ...this.state.cryptoToCurrencyState,
-                    validForm: true,
                     [target.name]: {
                         ...this.state.cryptoToCurrencyState[target.name],
                         [targetProperty] : target.value,
                         amountErrorMessage: null,
-                        validInput: true
+                        validInput: true,
+                        validForSubmit: true
 
                         } 
                 }
@@ -127,8 +115,6 @@ class ConvertForm extends Component{
                     [target.name]: {
                         ...this.state.cryptoToCurrencyState[target.name],
                         [targetProperty] : target.value,
-                        [otherError]: null,
-                        validInput: true
                     }
                 },
   
@@ -139,14 +125,11 @@ class ConvertForm extends Component{
     };
 
      handleNationalCurrencyChange = (e) => {
-
         const regexp = new RegExp(`^-?[0-9]*$`);
         const target = e.target;
-        let otherError = this.otherErrorMessage(target);
         e.persist();
         // check above arror function to understand targetPropertyUtility
         let targetProperty = this.targetPropertyUtility(target)
-        
         if (target.name === 'quantityAmount' && !regexp.test(target.value)){
           this.setState({
               ...this.state,
@@ -156,7 +139,8 @@ class ConvertForm extends Component{
                       ...this.state.nationalCurrencyToCrypto[target.name],
                       [targetProperty] : target.value,
                       amountErrorMessage: 'input only valid number',
-                      validInput: false
+                      validInput: false,
+                      validForSubmit: false
                       } 
               }
               });
@@ -169,7 +153,8 @@ class ConvertForm extends Component{
                       ...this.state.nationalCurrencyToCrypto[target.name],
                       [targetProperty] : target.value,
                       amountErrorMessage: null,
-                      validInput: true
+                      validInput: true,
+                      validForSubmit: true
                       } 
               }
               });
@@ -181,8 +166,6 @@ class ConvertForm extends Component{
                   [target.name]: {
                       ...this.state.nationalCurrencyToCrypto[target.name],
                       [targetProperty] : target.value,
-                      [otherError]: null,
-                      validInput: true
 
                   }
               },
@@ -195,11 +178,19 @@ class ConvertForm extends Component{
 
 
 // this event handle the submit of cryptocurrency to national currency
-     handleCrypoSubmit = (e) => {
+     handleCryptoSubmit = (e) => {
          e.preventDefault();
          const {cryptoToCurrencyState} = this.state;
-         const {quantityAmount, cryptoCode, currencyCode} = cryptoToCurrencyState;
-         if (!quantityAmount.figureAmount){
+         const {quantityAmount, cryptoCode, currencyCode}= cryptoToCurrencyState;
+         /// The validInput of each field will be use to validate the form
+         /// then lauch action thunk if the form is valid
+         /// if form is not valid, validation error will be displayed and the action thunk will be prevented
+         /// There will be main error display to show the form is not valid
+
+        if(quantityAmount.validForSubmit){
+            this.props.dispatch(cryptoToCurrencyThunk(quantityAmount.figureAmount, cryptoCode.tokenCode, currencyCode.nationalCode));
+
+        }else if(!quantityAmount.figureAmount){
             this.setState({
                 ...this.state,
                 cryptoToCurrencyState:{
@@ -207,54 +198,28 @@ class ConvertForm extends Component{
                     quantityAmount: {
                         ...this.state.cryptoToCurrencyState.quantityAmount,
                         amountErrorMessage: 'The field is required',
-                        validInput: false
+                        validInput: false,
+                        validForSubmit: false
                         },
 
                 }
                 });
-         }
+            }
+            // and calling thunk action, there will be redirection to result page
+        }
+    
 
-
-         if(!cryptoCode.tokenCode){
-            this.setState({
-                ...this.state,
-                cryptoToCurrencyState:{
-                    ...this.state.cryptoToCurrencyState,
-                    cryptoCode: {
-                        ...this.state.cryptoToCurrencyState.cryptoCode,
-                        validInput: false
-                        },
-                }
-                });
-         }
-
-
-         if(!currencyCode.nationalCode){
-            this.setState({
-                ...this.state,
-                cryptoToCurrencyState:{
-                    ...this.state.cryptoToCurrencyState,
-                    currencyCode: {
-                        ...this.state.cryptoToCurrencyState.currencyCode,
-                        validInput: false
-                        },
-                }
-                });
-         }
-         
-         /// The validInput of each field will be use to validate the form
-         /// then lauch action thunk if the form is valid
-         /// if form is not valid, validation error will be displayed and the action thunk will be prevented
-         /// There will be main error display to show the form is not valid
-
-     }
 
 
      handleNationalSubmit = (e) =>{
         e.preventDefault();
         const {nationalCurrencyToCrypto} = this.state;
         const {quantityAmount, cryptoCode, currencyCode} = nationalCurrencyToCrypto;
-        if (!quantityAmount.figureAmount){
+
+
+        if(quantityAmount.validForSubmit){
+            this.props.dispatch(currencyToCryptoThunk(quantityAmount.figureAmount, currencyCode.nationalCode, cryptoCode.tokenCode));
+        }else if(!quantityAmount.figureAmount){
             this.setState({
                 ...this.state,
                 nationalCurrencyToCrypto:{
@@ -262,59 +227,32 @@ class ConvertForm extends Component{
                     quantityAmount: {
                         ...this.state.nationalCurrencyToCrypto.quantityAmount,
                         amountErrorMessage: 'The field is required',
-                        validInput: false
+                        validInput: false,
                         },
 
                 }
                 });
-         }
+            }
+        }
 
-
-         if(!cryptoCode.tokenCode){
-            this.setState({
-                ...this.state,
-                nationalCurrencyToCrypto:{
-                    ...this.state.nationalCurrencyToCrypto,
-                    cryptoCode: {
-                        ...this.state.nationalCurrencyToCrypto.cryptoCode,
-                        validInput: false
-                        },
-                }
-                });
-         }
-
-
-         if(!currencyCode.nationalCode){
-            this.setState({
-                ...this.state,
-                nationalCurrencyToCrypto:{
-                    ...this.state.nationalCurrencyToCrypto,
-                    currencyCode: {
-                        ...this.state.nationalCurrencyToCrypto.currencyCode,
-                        validInput: false
-                        },
-                }
-                });
-         }
-     }
-       
-
-    render(){
+    render(){ 
+        const {resultToken, resultNational, error, loading} = this.props;
 
         return (
-            // convert national currency to digital currency formik form
+            // convert digital currency form
                 <div>
                 <div>
-                    convert from National currency to digital currency
                 </div>
 
-                <form onSubmit={this.handleCrypoSubmit}>
+                <form onSubmit={this.handleCryptoSubmit}>
 
                     <label>
                         Token Amount
                     </label>
 
                     <input type="text" name="quantityAmount" placeholder='The quantity of the token' onChange={this.handleCryptoChange}/>
+                    {!this.state.cryptoToCurrencyState.quantityAmount.validInput && <h3>{this.state.cryptoToCurrencyState.quantityAmount.amountErrorMessage}</h3>}
+                    <div>
 
                             <label htmlFor='cryptoCode'>
                                 Digital currency
@@ -335,6 +273,8 @@ class ConvertForm extends Component{
                                 <option value='bnb'>Binance Coin</option>
                                 <option value='bchsv'>Bitcoin SV</option>
                             </select>
+                            {!this.state.cryptoToCurrencyState.cryptoCode.validInput && <h3>{this.state.cryptoToCurrencyState.cryptoCode.tokenErrorMessage}</h3>}
+                    </div>
                         <div>
                             <label htmlFor="currencyCode">Country Currency Code</label>
                             <select name='currencyCode' placeholder='choose a country currency' onChange={this.handleCryptoChange}>
@@ -360,19 +300,24 @@ class ConvertForm extends Component{
                                 <option value='zar'>African Rand</option>
                                 <option value='ngn'>Nigeria Naira</option>
                             </select>
+                            {!this.state.cryptoToCurrencyState.currencyCode.validInput && <h3>{this.state.cryptoToCurrencyState.currencyCode.nationalCodeErrorMessage}</h3>}
                         </div>
                         <div>
                         <button type="submit">submit</button>
                         </div>
             </form>
+            
             <div>
-            <pre>{JSON.stringify(this.state, null, 2)}</pre>
+                <div>
+                    {loading ? <h4>loading...</h4> : 
+                    resultNational ? <p>{JSON.stringify(resultNational)}</p> : <p>{JSON.stringify(error)}</p>}
+                </div>
             </div>
 
 
             <div>
                 <h2>
-                    Convert Crypo Token to National Currency
+                    Convert National Currency
                 </h2>
 
 
@@ -384,6 +329,7 @@ class ConvertForm extends Component{
 
                     <input type="text" name="quantityAmount" placeholder='The quantity of the prefered national currency' 
                     onChange={this.handleNationalCurrencyChange}/>
+                     {!this.state.nationalCurrencyToCrypto.quantityAmount.validInput && <h3>{this.state.nationalCurrencyToCrypto.quantityAmount.amountErrorMessage}</h3>}
 
                             <label htmlFor='cryptoCode'>
                                 Digital currency
@@ -404,6 +350,7 @@ class ConvertForm extends Component{
                                 <option value='bnb'>Binance Coin</option>
                                 <option value='bchsv'>Bitcoin SV</option>
                             </select>
+                            {!this.state.nationalCurrencyToCrypto.cryptoCode.validInput && <h3>{this.state.nationalCurrencyToCrypto.cryptoCode.tokenErrorMessage}</h3>}
                         <div>
                             <label htmlFor="currencyCode">Country Currency Code</label>
                             <select name='currencyCode' placeholder='choose a country currency' onChange={this.handleNationalCurrencyChange}>
@@ -429,6 +376,7 @@ class ConvertForm extends Component{
                                 <option value='zar'>African Rand</option>
                                 <option value='ngn'>Nigeria Naira</option>
                             </select>
+                            {!this.state.nationalCurrencyToCrypto.currencyCode.validInput && <h3>{this.state.nationalCurrencyToCrypto.currencyCode.nationalCodeErrorMessage}</h3>}
                         </div>
                         <div>
                         <button type="submit">submit</button>
@@ -449,5 +397,11 @@ class ConvertForm extends Component{
 
 }
 
+const mapStatetoProps = (state) => ({
+    resultToken : state.currencyConverterReducer.resultTokenToCountryCurrency,
+    resultNational : state.currencyConverterReducer.resultCountryCurrencyToCrypto,
+    error : state.currencyConverterReducer.error,
+    loading: state.currencyConverterReducer.loading
+})
 
-export default ConvertForm;
+export default connect(mapStatetoProps)(ConvertForm);

@@ -1,7 +1,7 @@
 import {topTokenDetailsBegin, topTokenDetailsFailure, topTokenDetailsSuccess} from './topTokenAction';
 import { GET_TOKEN_DETAILS_BEGIN } from './getTokenDetails';
 
-const urlAbstraction = (cryptoCode) => 'https://bravenewcoin-v1.p.rapidapi.com/ticker/${cryptoCode}';
+const urlAbstraction = (cryptoCode) => `https://bravenewcoin-v1.p.rapidapi.com/ticker/${cryptoCode}`;
 
 
 const urls = [
