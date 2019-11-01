@@ -18,7 +18,7 @@ export const initialState = {
 */
 
 const initialState = {
-    resultTokenToCountryCurrency: {},
+    resultTokenToCountryCurrency: null,
     resultCountryCurrencyToCrypto: null,
     error: null,
     loading: false,

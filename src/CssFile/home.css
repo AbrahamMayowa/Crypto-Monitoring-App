@@ -1,0 +1,89 @@
+.home-wrapper{
+    margin: 0px;
+    padding: 0px;
+}
+
+.info{
+    background-image: url('../Files/blockchainAnima.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(225, 225, 225, 0.4);
+    background-blend-mode: lighten;
+    position: relative;
+    display: flex;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    height: 200px;
+    margin-top: 15px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.info .header-text{
+    box-sizing: border-box;
+    position: absolute;
+    font-weight: 700px;
+    font-size: 25px;
+    color:black;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    line-height: 36px;
+    text-shadow: 1px 1px darkgray;
+    z-index: 1;
+    text-align: center;
+    
+}
+
+.info p{
+    font-weight: 500px;
+    font-style: italic;
+    color:black;
+}
+
+.tokens-table{
+    width: 100%;
+}
+
+@media screen and (min-width: 700px){
+   .home-wrapper{
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       
+   }
+
+   .info{
+    background-image: url('../Files/blockchainAnima.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(225, 225, 225, 0.3);
+    background-blend-mode: lighten;
+    position: relative;
+    display: flex;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    height: 300px;
+    margin-top: 15px;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.info .header-text{
+    font-size: 30px;
+    text-align: right;
+}
+
+.tokens-table{
+    width: 80%;
+}
+
+.footer{
+    width: 80%;
+}
+
+
+}

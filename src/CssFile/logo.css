@@ -1,0 +1,38 @@
+img {
+    width:26px;
+    height: 28px;
+    top: 10px;
+    left: 5px;
+    position: absolute;
+    border-radius: 25%;
+}
+
+.wrapper h2{
+    top: -10px;
+    left: 34px;
+    position: absolute;
+    color: blanchedalmond;
+}
+
+.wrapper{
+    display: flex;
+}
+
+@media screen and (min-width: 700px){
+    img {
+        width:26px;
+        height: 28px;
+        position: absolute;
+        border-radius: 25%;
+    }
+
+    .wrapper h2{
+        position: absolute;
+        color: blanchedalmond;
+    }
+
+    .logo-link{
+        display: flex;
+    }
+
+}

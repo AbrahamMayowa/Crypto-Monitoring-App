@@ -8,12 +8,12 @@ export const topTokenDetailsBegin = () =>({
 });
 
 
-export const topTokenDetailsSuccess = (tokenResults) =>({
+export const topTokenDetailsSuccess = results =>({
     type: GET_TOP_TOKEN_DETAILS_SUCCESS,
-    payload: tokenResults
+    payload: {results}
 });
 
-export const topTokenDetailsFailure = (tokenError) => ({
+export const topTokenDetailsFailure = error => ({
     type: GET_TOP_TOKEN_DETAILS_FAILURE,
-    payload: tokenError
+    payload: {error}
 });

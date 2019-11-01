@@ -8,15 +8,15 @@ export const getTokenDetailsBegin = () =>({
 });
 
 
-export const getTokenDetailsSuccess = (tokenDetails) =>({
+export const getTokenDetailsSuccess = result =>({
     type: GET_TOKEN_DETAILS_SUCCESS,
-    payload: tokenDetails
+    payload: {result}
 });
 
 
 
-export const getTokenDetailsFailure = (tokenError) => ({
+export const getTokenDetailsFailure = error => ({
     type: GET_TOKEN_DETAILS_FAILURE,
-    payload: tokenError
+    payload: {error}
 });
 

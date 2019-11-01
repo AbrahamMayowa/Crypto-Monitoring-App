@@ -4,7 +4,7 @@ import {GET_TOP_TOKEN_DETAILS_BEGIN, GET_TOP_TOKEN_DETAILS_SUCCESS, GET_TOP_TOKE
 export const initialState = {
     error: null,
     loading: false,
-    topTokenlist: null,
+    topTokenlist: null
 
     };
 

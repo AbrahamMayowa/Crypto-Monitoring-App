@@ -1,0 +1,21 @@
+.token-result{
+    width: 100%;
+    max-width: 100%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: black;
+    
+
+
+}
+
+.token-to{
+    padding: 10px;
+    text-align: center;
+    margin-top: 10px;
+    color: black;
+
+}

@@ -1,0 +1,28 @@
+td, th{
+    padding: 10px;
+    text-align: left;
+    margin: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+tbody tr:nth-child(2n){
+    background-color: #eee;
+    
+}
+
+thead tr{
+    background-color: darkturquoise;
+    border-top: 3px solid darkgrey;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+.table-wrapper{
+    width: 100%;
+}
+
+.table{
+    width: 100%;
+}
