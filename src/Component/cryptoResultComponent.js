@@ -13,7 +13,7 @@ const FetchCryptoResult = ({tokenResult, handleClick}) => {
 <div className='token-result'>
 
 
-<div className='token-from'>{tokenResult.from_quantity} <span onClick={handleClick(tokenResult.from_symbol)}>
+<div className='token-from'>{tokenResult.from_quantity} <span onClick={handleClick.bind(this, tokenResult.from_symbol)}>
     <Link to={`/result/${tokenResult.to_name}`}> {tokenResult.from_name} </Link></span> ({tokenResult.from_symbol}) </div>
 
 
