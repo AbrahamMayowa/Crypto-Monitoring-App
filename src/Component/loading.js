@@ -11,6 +11,7 @@ export const Loading = () => {
          height={80}
          width={100}
          timeout={3000} />
+
         </div>
     )
 }

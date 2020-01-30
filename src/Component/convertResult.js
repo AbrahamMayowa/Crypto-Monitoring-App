@@ -9,7 +9,6 @@ import getTokenDetailsThunk from '../redux/action/cryptoDetailsThunk'
 
 class ConvertResult extends React.Component{
     
-
     handleClick = (tokenCode) => {
         this.props.dispatch(getTokenDetailsThunk(tokenCode))
     }
