@@ -61,8 +61,9 @@ class ConvertForm extends Component{
             return objectTarget = 'figureAmount';
         }else if (target.name === 'cryptoCode'){
             return objectTarget = 'tokenCode';
+        }else{
+            return objectTarget = 'nationalCode';
         }
-        return objectTarget = 'nationalCode';
 
     };
     
@@ -136,7 +137,7 @@ class ConvertForm extends Component{
                       amountErrorMessage: 'Input only valid number',
                       validInput: false,
                       validForSubmit: false
-                      } 
+                      }
               }
               });
             }else if(target.name === 'quantityAmount' && regexp.test(target.value)){
@@ -248,20 +249,18 @@ class ConvertForm extends Component{
                     <header className='form-header'>Cryptocurrency Conversion</header>
                 
                         <form className='form-class' onSubmit={this.handleCryptoSubmit}>
-
+                            <label className="label">National Currency quantity</label>
                             <input className='field-input' type="text" name="quantityAmount" placeholder='The amount of token in figure' 
                             onChange={this.handleCryptoChange}/>
 
                             {(!this.state.cryptoToCurrencyState.quantityAmount.validInput) && 
                             (<label className='error-message'>{this.state.cryptoToCurrencyState.quantityAmount.amountErrorMessage}</label>)}
 
-
-
                                     <label className='label'>Choose a digital currency</label>
 
                                     <select className='field-select' name="cryptoCode" placeholder='choose a digital currency' 
                                     onChange={this.handleCryptoChange}>
-
+                                        
                                         <option value='btc'>Bitcoin</option>
                                         <option value='ltc'>Litecoin</option>
                                         <option value='eth'>Ethereum</option>

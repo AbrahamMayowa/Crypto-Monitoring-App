@@ -19,7 +19,7 @@ return (
         <article className='info'>
           <div className='header-text'>
         
-            <p>Monitor the prices and trends<br/> of top cryptocurrencies</p>
+            <p>Monitor the prices of top cryptocurrencies</p>
   
           </div>
         </article>
@@ -29,7 +29,7 @@ return (
       <div className='tokens-table'>
         <TopTokens />
       </div>
-      <div className='footer'>
+      <div>
         <Footer />
       </div>
 

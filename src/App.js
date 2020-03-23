@@ -1,9 +1,10 @@
 import React from 'react';
-import ConvertWrapper from './ConvertWrapper'
-import MainConvert from './convertResultMain'
-import Home from './Home'
-import Error404 from './error404'
-import Header from './Header'
+import {Provider} from 'react-redux'
+import {store} from './redux/storeConfiguration'
+import MainConvert from './Component/convertResultMain'
+import Home from './Component/Home'
+import Error404 from './Component/error404'
+import Header from './Component/Header'
 
 import { Route, Switch } from 'react-router-dom';
 
@@ -11,7 +12,7 @@ import { Route, Switch } from 'react-router-dom';
 
 function Main() {
   return (
-
+  <Provider store={store} >
     <div>
     <div>
       <Header />
@@ -23,6 +24,7 @@ function Main() {
     </Switch>
 
     </div>
+    </Provider>
 
   )
 }

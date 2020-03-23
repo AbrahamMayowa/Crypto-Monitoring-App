@@ -1,7 +1,4 @@
 import React from 'react'
-import bitcoinCash from '../Files/bitcoincash1.png'
-import litecoin from '../Files/litecoin.svg'
-import xrp from '../Files/xrp.png'
 import '../CssFile/topTokenList.css'
 
 export default function TopTokenList({topTokenList}){

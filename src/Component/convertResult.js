@@ -22,14 +22,19 @@ class ConvertResult extends React.Component{
                 <Loading />
             </div>
         )
-    }else if(redirectDestination && !loading){
+    }
+    
+    
+    if(redirectDestination && !loading){
         return(
             <div className='result-wrapper'>
             
                 <FetchCountryResult nationalData={nationalCurrencyResult} handleClick={this.handleClick}/>
             </div>
         )
-    }else if(!redirectDestination && !loading && !error){
+    }
+    
+    if(!redirectDestination && !loading && !error){
         return(
             <div className='result-wrapper'>
             
@@ -37,7 +42,10 @@ class ConvertResult extends React.Component{
                 
             </div>
         )
-    }else if(error){
+    }
+    
+    
+    if(error){
         return(
             <div>
                 <Error error={error} />
